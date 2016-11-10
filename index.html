@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src='js/jquery.js'></script>
+		<script src='js/five.js'></script>
+	</head>
+	<style>
+	body{
+		background: #008000;
+	}
+		#canvas{
+			position: absolute;
+			margin: auto;
+			left: 0;
+			right: 0;
+			top:0;
+			bottom: 0;
+			border: 1px solid #000;
+			background: #D3AB88;
+		}
+		#canvas_one{
+			position: absolute;
+			left:100px;
+			top:0;
+			border: 1px solid #000;
+			border-radius: 50%;
+			background: url(img/2.jpg);
+			background-size:contain;
+		}
+		#canvas_two{
+			position: absolute;
+			right: 100px;
+			top:0;
+			border: 1px solid #000;
+			border-radius: 50%;
+			background: url(img/3.jpg);
+			background-position: -4px 2px;
+			background-size:cover;
+		}
+		#black{
+			position: absolute;
+			left: 30px;
+			bottom:30px;
+			height: 60px;
+			width: 100px;
+			background: #000;
+			color: #fff;
+			font-size: 30px;
+			/*font-weight: 700;*/
+			font-family: "微软雅黑";
+			text-align: center;
+			line-height: 60px;
+		}
+		#white{
+			position: absolute;
+			right: 30px;
+			bottom:30px;
+			height: 60px;
+			width: 100px;
+			background: #fff;
+			color: #000;
+			font-size: 30px;
+			font-family: "微软雅黑";
+			text-align: center;
+			line-height: 60px;
+		}
+	</style>
+	<body>
+		<canvas id="canvas" width="600" height="600"></canvas>
+		<canvas id="canvas_one" width="100" height="100"></canvas>
+		<canvas id="canvas_two" width="100" height="100"></canvas>
+		<audio src="5390.mp3" id='audio'></audio>
+		<div id='black'>黑方</div>
+		<div id='white'>白方</div>
+	</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<style type="text/css">
+		#canvas{
+			border: 1px solid #000;
+		}
+	</style>
+	<body>
+		<canvas id="canvas" width="450" height="450"></canvas>
+	</body>
+</html>
+<script type="text/javascript">
+	var canvas=document.getElementById('canvas');
+	var ctx=canvas.getContext('2d');
+	 
+	function talk(){
+		ctx.beginPath();
+		var lingrad=ctx.createLinearGradient(75,25,75,125);
+		var lingrad2=ctx.createLinearGradient(75,25,75,125);
+		lingrad.addColorStop(0,'yellow');
+		lingrad.addColorStop(1,'red');
+		lingrad2.addColorStop(0,'black');
+		lingrad2.addColorStop(1,'white');
+		ctx.moveTo(75,25);
+	    ctx.quadraticCurveTo(25,25,25,62.5);
+	    ctx.quadraticCurveTo(25,100,50,100);
+	    ctx.quadraticCurveTo(50,120,30,125);
+	    ctx.quadraticCurveTo(60,120,65,100);
+	    ctx.quadraticCurveTo(125,100,125,62.5);
+	    ctx.quadraticCurveTo(125,25,75,25);
+		ctx.closePath();
+		ctx.fillStyle=lingrad;
+		ctx.fill()
+		ctx.strokeStyle=lingrad2;
+		ctx.stroke()
+		ctx.stroke();
+	}
+	///////////////////////////////
+	function heart(){
+		ctx.save()
+		ctx.beginPath();
+		var radgrad = ctx.createRadialGradient(45,45,10,52,50,30);
+	  radgrad.addColorStop(0, '#A7D30C');
+	  radgrad.addColorStop(0.9, '#019F62');
+	  radgrad.addColorStop(1, 'rgba(1,159,98,0)');
+	    ctx.moveTo(75,40);
+	    ctx.bezierCurveTo(75,37,70,25,50,25);
+	    ctx.bezierCurveTo(20,25,20,62.5,20,62.5);
+	    ctx.bezierCurveTo(20,80,40,102,75,120);
+	    ctx.bezierCurveTo(110,102,130,80,130,62.5);
+	    ctx.bezierCurveTo(130,62.5,130,25,100,25);
+	    ctx.bezierCurveTo(85,25,75,37,75,40);
+	    ctx.fill();
+	    ctx.closePath();
+	    ctx.fillStyle=radgrad;
+		ctx.fill();
+		ctx.restore();
+	}
+	function xing(){
+		ctx.save();
+		ctx.beginPath();
+		ctx.moveTo(100,100)
+		ctx.quadraticCurveTo(30,25,100,50);
+		ctx.quadraticCurveTo(170,25,100,100);
+		ctx.closePath();
+		ctx.fillStyle='yellow';
+		ctx.fill();
+		ctx.restore();
+	}
+	function linewidth(){
+		ctx.save();
+		
+		ctx.lineWidth=10;
+		ctx.lineCap='round';
+		ctx.lineJoin='round';
+		ctx.translate(100,100);
+		ctx.beginPath()
+		ctx.moveTo(0,0);
+		ctx.lineTo(0,50);
+		ctx.lineTo(50,50);
+		ctx.lineTo(50,100);
+//		ctx.lineTo(0,0);
+//		ctx.closePath()
+		ctx.stroke();
+		ctx.restore();
+	}
+	function render(){
+		ctx.save();
+		ctx.clearRect(0,0,450,450);
+		ctx.translate(120,120)
+		talk();
+		xing();
+
+		ctx.restore();
+		ctx.save();
+		heart();
+		linewidth()
+		ctx.restore();
+	}
+	render();
+
+</script>
