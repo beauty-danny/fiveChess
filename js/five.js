@@ -6,6 +6,13 @@ $(document).ready(function(){
 	var bR=18;
 	var qizi={};
 	var audio=$('#audio').get(0);
+	var kaiguan=true;
+	var AI=false;
+	var gamestate='pause';
+	var bas={};
+//	if(AI){
+//		
+//	}
 	function l(x){
 		return (x+0.5) * sep + 0.5;
 	}
@@ -19,6 +26,7 @@ $(document).ready(function(){
 	}
 	function qipan(){
 		ctx.save();
+		ctx.clearRect(0,0,600,600)
 		ctx.beginPath();
 		for(var i=0;i<15;i++){
 			ctx.moveTo(l(0),l(i));
@@ -34,6 +42,11 @@ $(document).ready(function(){
 		circle(7,7);
 		circle(11,3);
 		circle(11,11);
+		for(var i=0;i<15;i++){
+			for(var j=0;j<15;j++){
+				bas[link(i,j)]=true;
+			}
+		}
 	}
 	qipan();
 	function luozi(x,y,color){
@@ -45,7 +58,7 @@ $(document).ready(function(){
 			grad.addColorStop(0.1,'#eee');
 			grad.addColorStop(0.2,'#fff');
 			grad.addColorStop(1,'#000');
-		}else{
+		}else if(color==='white'){
 			grad.addColorStop(0.1,'#fff');
 			grad.addColorStop(1,'#ccd');
 		}
@@ -56,104 +69,340 @@ $(document).ready(function(){
 		ctx.shadowBlur=4;
 		ctx.shadowColor='rgba(0,0,0,0.5)';
 		ctx.fill();
-		qizi[x+'_'+y]=color;
+//		qizi[x+'_'+y]=color;
 		ctx.closePath();
-		ctx.restore();	
+		ctx.restore();
+		qizi[x+"_"+y]=color;
+		gamestate="play";
+		delete bas[link(x,y)];
 	}
-	var kaiguan=true;
-	$(canvas).on('click',function(e){
-		var x=Math.floor(e.offsetX/sep);
-		var y=Math.floor(e.offsetY/sep);		
-		if(qizi[x+'_'+y]){return;}
-		audio.play()
-		if(kaiguan){
-			luozi(x,y,'black');
-			$('#black').css('opacity','0.5')
-			$('#white').css('opacity','1')
-			var t=setInterval(function(){
-				render2()
-			},100);
-			clearInterval(t0)
-		}else{
-			luozi(x,y,'white');
-			$('#black').css('opacity','1')
-			$('#white').css('opacity','0.5')
-			clearInterval(t)
-			var t0=setInterval(function(){
-				render()
-			},100);
-		}
-		kaiguan=!kaiguan;
-	})
+	
 	/////////////////////////
 
 	var canvas_one=$('#canvas_one').get(0);
 	var ctx_one=canvas_one.getContext('2d');
-	
-	function miaozhen(){
-		var date=new Date();
-		var s=date.getSeconds();
-		ctx_one.save();
-		ctx_one.beginPath();
-//		for(var i=0;i<s;i++){
-			ctx_one.rotate(Math.PI / 180 * 6 * s);
-//		}
-		
-		ctx_one.arc(0,0,5,0,Math.PI*2);
-		ctx_one.fill()
-		ctx_one.moveTo(0,5);
-		ctx_one.lineTo(0,20);
-		ctx_one.moveTo(0,-5);
-		ctx_one.lineTo(0,-30);	
-		ctx_one.closePath();
-		ctx_one.strokeStyle='red';
-		ctx_one.stroke()
-		ctx_one.restore();
-		/////////////////////	
-	}
-	function render(){
-		ctx_one.save();
-		ctx_one.clearRect(0,0,100,100);
-		ctx_one.translate(50,50);
-		miaozhen();
-		ctx_one.restore();
+	var b=0;
+	function hei(){   //黑方	
+		b++;
+		if(b<60&&b>0){
+			ctx_one.clearRect(0,0,100,100);
+			ctx_one.save();		
+			ctx_one.translate(50,50);
+			ctx_one.beginPath();
+			ctx_one.rotate(Math.PI * 2 / 60 * b);
+			ctx_one.arc(0,0,5,0,Math.PI*2);
+			ctx_one.fill()
+			ctx_one.moveTo(0,5);
+			ctx_one.lineTo(0,20);
+			ctx_one.moveTo(0,-5);
+			ctx_one.lineTo(0,-30);	
+			ctx_one.closePath();
+			ctx_one.strokeStyle='red';
+			ctx_one.stroke()
+			ctx_one.restore();
+		}else{
+			ctx_one.clearRect(0,0,100,100);
+		}
 		
 	}
-	var t0=setInterval(function(){
-		render()
-	},100);
+
+////////////////////////////////////////////
 	var canvas_two=$('#canvas_two').get(0);
 	var ctx_two=canvas_two.getContext('2d');
-	function miaozhen2(){   //白方
-		var date=new Date();
-		var s=date.getSeconds();
-		ctx_two.save();		
-		
-		ctx_two.beginPath();
-//		for(var i=0;i<300;i++){
-			ctx_two.rotate(Math.PI / 180 * 6 * s );
-//		}
-		ctx_two.arc(0,0,5,0,Math.PI*2);
-		ctx_two.fillStyle='red'
-		ctx_two.fill()
-		ctx_two.moveTo(0,5);
-		ctx_two.lineTo(0,20);
-		ctx_two.moveTo(0,-5);
-		ctx_two.lineTo(0,-30);	
-		ctx_two.closePath();
-		ctx_two.strokeStyle='#000';
-		ctx_two.stroke()
-		ctx_two.restore();
+	var w=0;
+	function bai(){   //白方	
+		w++;
+		if(w<60&&w>0){
+			ctx_two.clearRect(0,0,100,100);
+			ctx_two.save();		
+			ctx_two.translate(50,50);
+			ctx_two.beginPath();
+			ctx_two.rotate(Math.PI * 2 / 60 * w);
+			ctx_two.arc(0,0,5,0,Math.PI*2);
+			ctx_two.fillStyle='red'
+			ctx_two.fill()
+			ctx_two.moveTo(0,5);
+			ctx_two.lineTo(0,20);
+			ctx_two.moveTo(0,-5);
+			ctx_two.lineTo(0,-30);	
+			ctx_two.closePath();
+			ctx_two.strokeStyle='#000';
+			ctx_two.stroke()
+			ctx_two.restore();
+		}else{
+			ctx_two.clearRect(0,0,100,100);
+		}		
 	}
-	function render2(){
-		ctx_two.save();
-		ctx_two.clearRect(0,0,100,100);
-		ctx_two.translate(50,50);
-		miaozhen2();
-		ctx_two.restore();
+	/////////////////////////
+	function link(a,b){
+		return a+'_'+b;
+	}
+	function panduan(x,y,color){
+		///横列
+		var nheng=1;
+		var i;
+		i=1;
+		while(qizi[link(x+i,y)]===color){/////对象用   中括号取值
+			nheng++;
+			i++;			
+		}
+		i=1;
+		while(qizi[link(x-i,y)]===color){
+			nheng++;
+			i++;
+		}
+		/////竖列
+		var nshu=1;
+		i=1;
+		while(qizi[link(x,y+i)]===color){/////对象用   中括号取值
+			nshu++;
+			i++;			
+		}
+		i=1;
+		while(qizi[link(x,y-i)]===color){
+			nshu++;
+			i++;
+		}
+		////左斜
+		var nzuo=1;
+		i=1;
+		while(qizi[link(x-i,y-i)]===color){/////对象用   中括号取值
+			nzuo++;
+			i++;			
+		}
+		i=1;
+		while(qizi[link(x+i,y+i)]===color){
+			nzuo++;
+			i++;
+		}
+		
+		////右斜
+		var nyou=1;
+		i=1;
+		while(qizi[link(x-i,y+i)]===color){/////对象用   中括号取值
+			nyou++;
+			i++;			
+		}
+		i=1;
+		while(qizi[link(x+i,y-i)]===color){
+			nyou++;
+			i++;
+		}
+		return Math.max(nheng,nshu,nzuo,nyou);				
+	}
+
+	function chessMenu(){
+		ctx.save();
+		ctx.font='20px 微软雅黑';
+		ctx.textBaseline='middle';
+		ctx.textAlign='center';
+		var n=1;
+		for(var j in qizi){
+			var arr=j.split('_');
+			ctx.fillStyle='red';
+			ctx.fillText(n++,l(parseInt(arr[0])),l(parseInt(arr[1])))
+		}
+		ctx.restore();
+		$('<img>').attr('src',canvas.toDataURL()).appendTo('.canvas_box')
+		$('<a>').attr('href',canvas.toDataURL()).attr('download','a.png').appendTo('.canvas_box')		
+	}
+	function intel(){
+		var max=-Infinity;
+		var pos={};
+		for(var k in bas){
+			var x=parseInt(k.split('_')[0]);
+			var y=parseInt(k.split('_')[1]);
+			var m=panduan(x,y,'black');
+			if(m>max){
+				max=m;
+				pos.x=x;
+				pos.y=y;
+			}
+		}
+		var max1=-Infinity;
+		var pos1={};
+		for(var k in bas){
+			var x=parseInt(k.split('_')[0]);
+			var y=parseInt(k.split('_')[1]);
+			var m=panduan(x,y,'white');
+			if(m>max1){
+				max1=m;
+				pos1.x=x;
+				pos1.y=y;
+			}
+		}
+		if(max>max1){
+			return pos;
+		}else{
+			return pos1;
+		}
+	}
+	function moving(e){
+		var x=Math.floor(e.offsetX/sep);
+		var y=Math.floor(e.offsetY/sep);		
+		if(qizi[x+'_'+y]){return;}
+		audio.play()
+		var t_hei;
+		var t_bai;
+		if(AI){
+			var p=intel();
+			luozi(x,y,"black");
+			if(panduan(x,y,"black")>=5){
+				$(canvas).off("click");
+				$('.win').css('display','block');
+				$('.win p').html('恭喜！黑棋胜利');
+			};
+			
+			luozi(p.x,p.y,"white");
+			if(panduan(p.x,p.y,"white")>=5){
+				$(canvas).off("click");
+				$('.win').css('display','block');
+				$('.win p').html('恭喜！白棋胜利');
+			}
+			return false;
+		}
+		if(kaiguan){
+			luozi(x,y,'black');
+			if(panduan(x,y,'black')>=5){
+				$('.win').css('display','block');
+				$('.win p').html('恭喜！黑棋胜利');
+				$(canvas).off('click');
+			}			
+			$('#black').css('opacity','0.5')
+			$('#white').css('opacity','1')
+			t_bai=setInterval(bai,100);
+			clearInterval(t_hei);
+			w=0;
+		}else{
+			luozi(x,y,'white');
+			if(panduan(x,y,'white')>=5){
+				$('.win').css('display','block');
+				$('.win p').html('恭喜！白棋胜利');
+				$(canvas).off('click');
+			}
+			$('#black').css('opacity','1')
+			$('#white').css('opacity','0.5')			
+			t_hei=setInterval(hei,100);
+			clearInterval(t_bai);
+			b=0;
+		}
+		kaiguan=!kaiguan;
 	}
 	
-	var t=setInterval(function(){
-		render2()
-	},100);
+	function start(){
+		qipan();
+		$('.win').css('display','none');
+		kaiguan=true;
+		qizi={};
+		$(canvas).on('click',moving);
+		gamestate=pause;
+	}
+	$(canvas).on('click',moving);
+	$('.again').on('click',start);
+	$('.menu').on('click',function(){		
+		chessMenu();
+		$('.canvas_box').show()
+	})
+	$('.canvas_box .cha').on('click',function(){
+		$('.canvas_box').css('display','none');
+		qipan();
+		$('.canvas_box img').remove();
+		$('.canvas_box a').remove()
+		for(var k in qizi){
+			var x=parseInt(k.split('_')[0]);
+			var y=parseInt(k.split('_')[1]);
+			luozi(x,y,qizi[k]);
+		}
+	})
+	
+	$('.mashine').on('click',function(){////单机模式
+		if(gamestate==='play'){
+			return;
+		}
+		$('.people').removeClass('active');
+		$('.mashine').addClass('active');
+//		start()
+		AI=true;
+	})
+	///////////////////////////
+	$('.people').on('click',function(){////人人模式
+		if(gamestate==='play'){
+			return;
+		}
+		$('.people').addClass('active');
+		$('.mashine').removeClass('active');
+//		start();
+		AI=false;
+	})
+	
+	
+	
+	
+	//按钮点击
+	$('.enter').on('click',function(){
+		$('.zhao').css('display','none')
+	})
+	$('.start').on('click',function(){
+		$('.start_blank').css('display','block');
+	})
+	$('.start_blank div:nth-of-type(1)').on('click',function(){
+		$('.start_blank').css('display','none');
+		start();
+	})
+	$('.start_blank div:nth-of-type(2)').on('click',function(){
+		$('.start_blank').css('display','none')
+	})
+	$('.end').on('click',function(){
+		$('.end_blank').css('display','block');
+	})
+	$('.end_blank div:nth-of-type(1)').on('click',function(){
+		$('.end_blank').css('display','none')
+	})
+	$('.end_blank div:nth-of-type(2)').on('click',function(){
+		$('.end_blank').css('display','none')
+	})
+	
+	
+})
+
+
+
+
+
+
+
+//$(document).ready(function(){
+	
+//})
+/////////公告轮播
+$(document).ready(function(){
+	var n=0;
+	var T=setInterval(move,2000);
+	function move(){
+		if(n>=$('.img .img_p p').length){
+			n=0;
+		}
+		$('.img .img_p p').css('display','none').eq(n).css('display','block');
+		n++;
+	}
+	////////////////////////
+	var n1=0;
+	var T1=setInterval(move1,2000);
+	function move1(){
+		if(n1>=$('.img_p1 p').length){
+			n1=0;
+		}
+		$('.img_p1 p').css('display','none').eq(n1).css('display','block');
+		n1++;
+	}
+	////////////////
+	var n2=0;
+	var T2=setInterval(move2,2000);
+	function move2(){
+		if(n2>=$('.img_p2 p').length){
+			n2=0;
+		}
+		$('.img_p2 p').css('display','none').eq(n2).css('display','block');
+		n2++;
+	}
 })

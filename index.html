@@ -5,74 +5,71 @@
 		<title></title>
 		<script src='js/jquery.js'></script>
 		<script src='js/five.js'></script>
+		<link rel="stylesheet" href="css/five.css" />
 	</head>
-	<style>
-	body{
-		background: #008000;
-	}
-		#canvas{
-			position: absolute;
-			margin: auto;
-			left: 0;
-			right: 0;
-			top:0;
-			bottom: 0;
-			border: 1px solid #000;
-			background: #D3AB88;
-		}
-		#canvas_one{
-			position: absolute;
-			left:100px;
-			top:0;
-			border: 1px solid #000;
-			border-radius: 50%;
-			background: url(img/2.jpg);
-			background-size:contain;
-		}
-		#canvas_two{
-			position: absolute;
-			right: 100px;
-			top:0;
-			border: 1px solid #000;
-			border-radius: 50%;
-			background: url(img/3.jpg);
-			background-position: -4px 2px;
-			background-size:cover;
-		}
-		#black{
-			position: absolute;
-			left: 30px;
-			bottom:30px;
-			height: 60px;
-			width: 100px;
-			background: #000;
-			color: #fff;
-			font-size: 30px;
-			/*font-weight: 700;*/
-			font-family: "微软雅黑";
-			text-align: center;
-			line-height: 60px;
-		}
-		#white{
-			position: absolute;
-			right: 30px;
-			bottom:30px;
-			height: 60px;
-			width: 100px;
-			background: #fff;
-			color: #000;
-			font-size: 30px;
-			font-family: "微软雅黑";
-			text-align: center;
-			line-height: 60px;
-		}
-	</style>
+	
 	<body>
-		<canvas id="canvas" width="600" height="600"></canvas>
-		<canvas id="canvas_one" width="100" height="100"></canvas>
-		<canvas id="canvas_two" width="100" height="100"></canvas>
-		<audio src="5390.mp3" id='audio'></audio>
-		<div id='black'>黑方</div>
-		<div id='white'>白方</div>
+		<div id='bigBox'>
+			<div id='box'>
+				<div class='people active'>人人模式</div>
+				<div class="mashine">单机模式</div>
+				<canvas id="canvas" width="600" height="600"></canvas>
+				<div class="canvas_box">
+					<div class="cha">x</div>
+				</div>
+				<canvas id="canvas_one" width="100" height="100"></canvas>
+				<canvas id="canvas_two" width="100" height="100"></canvas>
+				<audio src="5390.mp3" id='audio'></audio>
+				<div id='black'>黑方</div>
+				<div id='white'>白方</div>
+				<div class='set'>
+					<div class='start'>开始</div>
+					<div class='end'>结束</div>
+					<div class='menu'>棋谱</div>
+					<div class='again'>下一局</div>
+				</div>
+				<div class='start_blank'>
+					<p>确定开始游戏？</p>
+					<div>是</div>
+					<div>否</div>
+				</div>
+				<div class='end_blank'>
+					<p>确定结束游戏？</p>
+					<div>是</div>
+					<div>否</div>
+				</div>				
+				<div class='img'>
+					<div class='img_p'>
+						<p>有朋自远方来</p>
+						<p>不亦乐乎</p>
+						<p>擂主比赛</p>
+						<p>11-4初赛</p>
+					</div>
+					<div class='img_p1'>
+						<p>11-4初赛结果名单</p>
+						<p>铸剑论英雄</p>
+						<p>11-20日有奖励哦</p>
+						<p>花开吉祥拿到本赛季第一</p>
+					</div>
+					<div class='img_p2'>
+						<p>游戏更新</p>
+						<p>不亦乐乎</p>
+						<p>擂主比赛</p>
+						<p>其乐融融</p>
+					</div>
+					<div class='gonggao'>公告</div>
+				</div>
+				<div class='win'>
+					<img src="img/win.png" alt="" />
+					<p>恭喜！你赢了</p>
+				</div>
+			</div>			
+		</div>
+			
+		<!--大遮罩-->
+		<div class='zhao'>
+			<div class='enter'>进入游戏</div>
+		</div>
+		
 	</body>
 </html>
