@@ -10,9 +10,7 @@ $(document).ready(function(){
 	var AI=false;
 	var gamestate='pause';
 	var bas={};
-//	if(AI){
-//		
-//	}
+////////////////////////////////////////////////////
 	function l(x){
 		return (x+0.5) * sep + 0.5;
 	}
@@ -54,7 +52,7 @@ $(document).ready(function(){
 		ctx.beginPath();
 		ctx.translate(l(x),l(y));
 		var grad=ctx.createRadialGradient(-6,-3,0,0,0,18)
-		if(color=='black'){
+		if(color==='black'){
 			grad.addColorStop(0.1,'#eee');
 			grad.addColorStop(0.2,'#fff');
 			grad.addColorStop(1,'#000');
@@ -69,7 +67,6 @@ $(document).ready(function(){
 		ctx.shadowBlur=4;
 		ctx.shadowColor='rgba(0,0,0,0.5)';
 		ctx.fill();
-//		qizi[x+'_'+y]=color;
 		ctx.closePath();
 		ctx.restore();
 		qizi[x+"_"+y]=color;
@@ -78,18 +75,16 @@ $(document).ready(function(){
 	}
 	
 	/////////////////////////
-
+	var s=0;
 	var canvas_one=$('#canvas_one').get(0);
 	var ctx_one=canvas_one.getContext('2d');
-	var b=0;
+	ctx_one.save();
 	function hei(){   //黑方	
-		b++;
-		if(b<60&&b>0){
 			ctx_one.clearRect(0,0,100,100);
 			ctx_one.save();		
-			ctx_one.translate(50,50);
+			ctx_one.translate(50,50);			
+			ctx_one.rotate(Math.PI / 180 *6*s);
 			ctx_one.beginPath();
-			ctx_one.rotate(Math.PI * 2 / 60 * b);
 			ctx_one.arc(0,0,5,0,Math.PI*2);
 			ctx_one.fill()
 			ctx_one.moveTo(0,5);
@@ -100,11 +95,17 @@ $(document).ready(function(){
 			ctx_one.strokeStyle='red';
 			ctx_one.stroke()
 			ctx_one.restore();
-		}else{
-			ctx_one.clearRect(0,0,100,100);
+			s+=1;
+			if(s==61){
+				s=0;
+			}
 		}
-		
-	}
+//	else{
+//			ctx_one.clearRect(0,0,100,100);
+//		}
+	hei();
+	ctx_one.restore();
+//	}
 
 ////////////////////////////////////////////
 	var canvas_two=$('#canvas_two').get(0);
@@ -141,56 +142,23 @@ $(document).ready(function(){
 		///横列
 		var nheng=1;
 		var i;
-		i=1;
-		while(qizi[link(x+i,y)]===color){/////对象用   中括号取值
-			nheng++;
-			i++;			
-		}
-		i=1;
-		while(qizi[link(x-i,y)]===color){
-			nheng++;
-			i++;
-		}
+		i=1;while(qizi[link(x+i,y)]===color){nheng++;i++;}
+		i=1;while(qizi[link(x-i,y)]===color){nheng++;i++;}
 		/////竖列
 		var nshu=1;
-		i=1;
-		while(qizi[link(x,y+i)]===color){/////对象用   中括号取值
-			nshu++;
-			i++;			
-		}
-		i=1;
-		while(qizi[link(x,y-i)]===color){
-			nshu++;
-			i++;
-		}
+		i=1;while(qizi[link(x,y+i)]===color){nshu++;i++;}
+		i=1;while(qizi[link(x,y-i)]===color){nshu++;i++;}
 		////左斜
 		var nzuo=1;
-		i=1;
-		while(qizi[link(x-i,y-i)]===color){/////对象用   中括号取值
-			nzuo++;
-			i++;			
-		}
-		i=1;
-		while(qizi[link(x+i,y+i)]===color){
-			nzuo++;
-			i++;
-		}
-		
+		i=1;while(qizi[link(x-i,y-i)]===color){nzuo++;i++;}
+		i=1;while(qizi[link(x+i,y+i)]===color){nzuo++;i++;}		
 		////右斜
 		var nyou=1;
-		i=1;
-		while(qizi[link(x-i,y+i)]===color){/////对象用   中括号取值
-			nyou++;
-			i++;			
-		}
-		i=1;
-		while(qizi[link(x+i,y-i)]===color){
-			nyou++;
-			i++;
-		}
+		i=1;while(qizi[link(x-i,y+i)]===color){nyou++;i++;}
+		i=1;while(qizi[link(x+i,y-i)]===color){nyou++;i++;}
 		return Math.max(nheng,nshu,nzuo,nyou);				
 	}
-
+///////棋谱////////////////////////////////////////////////
 	function chessMenu(){
 		ctx.save();
 		ctx.font='20px 微软雅黑';
@@ -199,13 +167,19 @@ $(document).ready(function(){
 		var n=1;
 		for(var j in qizi){
 			var arr=j.split('_');
-			ctx.fillStyle='red';
+			if(qizi[j]==='white'){
+				ctx.fillStyle='black';
+			}else{
+				ctx.fillStyle='white';
+			}
+			
 			ctx.fillText(n++,l(parseInt(arr[0])),l(parseInt(arr[1])))
 		}
 		ctx.restore();
 		$('<img>').attr('src',canvas.toDataURL()).appendTo('.canvas_box')
 		$('<a>').attr('href',canvas.toDataURL()).attr('download','a.png').appendTo('.canvas_box')		
 	}
+////////人机对弈////////////////////////////////////////	
 	function intel(){
 		var max=-Infinity;
 		var pos={};
@@ -237,6 +211,7 @@ $(document).ready(function(){
 			return pos1;
 		}
 	}
+////////////////////////////////////////////////////
 	function moving(e){
 		var x=Math.floor(e.offsetX/sep);
 		var y=Math.floor(e.offsetY/sep);		
@@ -245,19 +220,21 @@ $(document).ready(function(){
 		var t_hei;
 		var t_bai;
 		if(AI){
-			var p=intel();
+			
 			luozi(x,y,"black");
 			if(panduan(x,y,"black")>=5){
 				$(canvas).off("click");
 				$('.win').css('display','block');
 				$('.win p').html('恭喜！黑棋胜利');
+				clearInterval(t);
 			};
-			
+			var p=intel();
 			luozi(p.x,p.y,"white");
 			if(panduan(p.x,p.y,"white")>=5){
 				$(canvas).off("click");
 				$('.win').css('display','block');
 				$('.win p').html('恭喜！白棋胜利');
+				clearInterval(t);
 			}
 			return false;
 		}
@@ -267,36 +244,47 @@ $(document).ready(function(){
 				$('.win').css('display','block');
 				$('.win p').html('恭喜！黑棋胜利');
 				$(canvas).off('click');
+				clearInterval(t);
+				hei()
 			}			
 			$('#black').css('opacity','0.5')
 			$('#white').css('opacity','1')
-			t_bai=setInterval(bai,100);
-			clearInterval(t_hei);
-			w=0;
+//			t_bai=setInterval(bai,100);
+			
+//			w=0;
 		}else{
 			luozi(x,y,'white');
 			if(panduan(x,y,'white')>=5){
 				$('.win').css('display','block');
 				$('.win p').html('恭喜！白棋胜利');
 				$(canvas).off('click');
+				clearInterval(t);
 			}
 			$('#black').css('opacity','1')
 			$('#white').css('opacity','0.5')			
-			t_hei=setInterval(hei,100);
-			clearInterval(t_bai);
-			b=0;
+//			t_hei=setInterval(hei,100);
+			
+//			b=0;
 		}
 		kaiguan=!kaiguan;
+		flag2=true;
+	    s=0;
+		var t=setInterval(function(){
+			if(flag2){
+				hei();
+			}
+		},1000)
 	}
-	
+////////////////////////////////////////////////////	
 	function start(){
 		qipan();
 		$('.win').css('display','none');
 		kaiguan=true;
 		qizi={};
 		$(canvas).on('click',moving);
-		gamestate=pause;
+		gamestate='pause';
 	}
+///////////////////////////////////////////////////
 	$(canvas).on('click',moving);
 	$('.again').on('click',start);
 	$('.menu').on('click',function(){		
@@ -314,30 +302,25 @@ $(document).ready(function(){
 			luozi(x,y,qizi[k]);
 		}
 	})
-	
+////////////////////////////////////////////////////////////	
 	$('.mashine').on('click',function(){////单机模式
 		if(gamestate==='play'){
 			return;
 		}
 		$('.people').removeClass('active');
 		$('.mashine').addClass('active');
-//		start()
 		AI=true;
 	})
-	///////////////////////////
 	$('.people').on('click',function(){////人人模式
 		if(gamestate==='play'){
 			return;
 		}
 		$('.people').addClass('active');
 		$('.mashine').removeClass('active');
-//		start();
 		AI=false;
 	})
 	
-	
-	
-	
+//////////////////////////////////////////////////////////////////	
 	//按钮点击
 	$('.enter').on('click',function(){
 		$('.zhao').css('display','none')
