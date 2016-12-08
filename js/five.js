@@ -108,32 +108,32 @@ $(document).ready(function(){
 //	}
 
 ////////////////////////////////////////////
-	var canvas_two=$('#canvas_two').get(0);
-	var ctx_two=canvas_two.getContext('2d');
-	var w=0;
-	function bai(){   //白方	
-		w++;
-		if(w<60&&w>0){
-			ctx_two.clearRect(0,0,100,100);
-			ctx_two.save();		
-			ctx_two.translate(50,50);
-			ctx_two.beginPath();
-			ctx_two.rotate(Math.PI * 2 / 60 * w);
-			ctx_two.arc(0,0,5,0,Math.PI*2);
-			ctx_two.fillStyle='red'
-			ctx_two.fill()
-			ctx_two.moveTo(0,5);
-			ctx_two.lineTo(0,20);
-			ctx_two.moveTo(0,-5);
-			ctx_two.lineTo(0,-30);	
-			ctx_two.closePath();
-			ctx_two.strokeStyle='#000';
-			ctx_two.stroke()
-			ctx_two.restore();
-		}else{
-			ctx_two.clearRect(0,0,100,100);
-		}		
-	}
+//	var canvas_two=$('#canvas_two').get(0);
+//	var ctx_two=canvas_two.getContext('2d');
+//	var w=0;
+//	function bai(){   //白方	
+//		w++;
+//		if(w<60&&w>0){
+//			ctx_two.clearRect(0,0,100,100);
+//			ctx_two.save();		
+//			ctx_two.translate(50,50);
+//			ctx_two.beginPath();
+//			ctx_two.rotate(Math.PI * 2 / 60 * w);
+//			ctx_two.arc(0,0,5,0,Math.PI*2);
+//			ctx_two.fillStyle='red'
+//			ctx_two.fill()
+//			ctx_two.moveTo(0,5);
+//			ctx_two.lineTo(0,20);
+//			ctx_two.moveTo(0,-5);
+//			ctx_two.lineTo(0,-30);	
+//			ctx_two.closePath();
+//			ctx_two.strokeStyle='#000';
+//			ctx_two.stroke()
+//			ctx_two.restore();
+//		}else{
+//			ctx_two.clearRect(0,0,100,100);
+//		}		
+//	}
 	/////////////////////////
 	function link(a,b){
 		return a+'_'+b;
